@@ -1,3 +1,7 @@
+<<<<<<< HEAD
+=======
+
+>>>>>>> 4c3220865adb570c56a031b532a319ec6d607256
 module alu (
     input        [ 3:0] alu_control,
     input        [31:0] a,
