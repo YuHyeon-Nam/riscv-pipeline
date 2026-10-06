@@ -1,7 +1,7 @@
+`include "define.vh"
 
 module extend_imm (
     input [31:0] instr_code,
-    input [3:0] alu_control,
     output logic [31:0] o_imm
 );
     logic [4:0] shamt;

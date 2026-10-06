@@ -4,9 +4,9 @@ module register_file (
     input         clk,
     input         rst,
     input         we,      // from control unit
-    input  [ 4:0] raddr1,  // instruction code rs 1
-    input  [ 4:0] raddr2,  // instruction code rs 2
-    input  [ 4:0] waddr,   // instruction code rd
+    input  [ 4:0] r_reg1,  // instruction code rs 1
+    input  [ 4:0] r_reg2,  // instruction code rs 2
+    input  [ 4:0] w_reg,   // instruction code rd
     input  [31:0] wdata,   // alu output
     output [31:0] rdata1,  // to alu a
     output [31:0] rdata2   // to alu b
@@ -25,11 +25,11 @@ module register_file (
         // x0 : never write
         if(rst)begin
             reg_file[0] <= 32'd0;
-        end else if (we &(waddr!=0)) begin
-            reg_file[waddr] <= wdata;
+        end else if (we &(w_reg!=0)) begin
+            reg_file[w_reg] <= wdata;
         end
     end
 
-    assign rdata1 = reg_file[raddr1];
-    assign rdata2 = reg_file[raddr2];
+    assign rdata1 = reg_file[r_reg1];
+    assign rdata2 = reg_file[r_reg2];
 endmodule
