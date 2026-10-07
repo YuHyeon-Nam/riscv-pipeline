@@ -10,7 +10,7 @@ module datapath (
     input         jarl_sel,
     input         jal_sel,
     input  [ 2:0] reg_w_src_sel,
-    input  [ 3:0] alu_control,
+    input  [ 3:0] ctl_alu,
     input  [31:0] instr_code,     // instruction code from ROM
     input  [31:0] d_rdata,
     output [31:0] instr_raddr,    // pc to rom
@@ -46,7 +46,7 @@ module datapath (
     );
 
     alu u_alu (
-        .alu_control(alu_control),
+        .ctl_alu(ctl_alu),
         .a          (rdata1),
         .b          (alu_src_mux_out),
         .alu_result (alu_result),
@@ -58,12 +58,6 @@ module datapath (
         .in_0(rdata2),
         .in_1(imm),
         .mux_out(alu_src_mux_out)
-    );
-
-    alu_control u_alu_control (
-        .ALUOp (),
-        .funct3(instr_code[14:12]),
-        .funct7(instr_code[30])
     );
 
     extend_imm u_extend_imm (

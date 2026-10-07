@@ -39,7 +39,7 @@ module RV32I_CORE(
     logic we;
     logic ALUSrc,jal_sel,jarl_sel;
     logic [2:0] reg_w_src_sel;
-    logic [3:0] alu_control;
+    logic [3:0] ctl_alu;
     logic branch;
 
     datapath u_datapath (
@@ -47,8 +47,8 @@ module RV32I_CORE(
         .rst(rst),
         .branch(branch),
         .reg_file_we(we),
-        .alu_control(alu_control),
-        .instr_code(instr_code),  
+        .ctl_alu(ctl_alu),
+        .instr_code(instr_code[6:0]),  
         .instr_raddr(instr_raddr),
         .d_rdata(d_rdata),
         .ALUSrc(ALUSrc),
@@ -60,11 +60,12 @@ module RV32I_CORE(
     );
 
     control_unit u_control_unit(
-        .instr_code(instr_code),
+        .instr_code(instr_code[6:0]),
+        .fucnt7(instr_code[30]),
         .reg_file_we(we),
         .ALUSrc(ALUSrc),
         .reg_w_src_sel(reg_w_src_sel),
-        .alu_control(alu_control),
+        .ctl_alu(ctl_alu),
         .d_wr(d_wr),
         .branch(branch),
         .jarl_sel(jarl_sel),

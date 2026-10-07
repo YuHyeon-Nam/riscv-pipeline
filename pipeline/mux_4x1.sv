@@ -1,8 +1,4 @@
 
-
-
-
-
 module mux_4x1 (
     input        [ 2:0] mux_sel,
     input        [31:0] in_0,

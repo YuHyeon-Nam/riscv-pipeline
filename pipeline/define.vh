@@ -29,15 +29,15 @@
 `define SB 3'b000
 
 //I-type
-`define ADDI 3'b000
-`define SLTI 3'b010
-`define SLTUI 3'b011
-`define XORI 3'b100
-`define ORI 3'b110
-`define ANDI 3'b111
-`define SLLI 3'b001
-`define SRLI 3'b101
-`define SRAI 3'b101
+`define ADDI 4'b0000
+`define SLTI 4'b0010
+`define SLTUI 4'b0011
+`define XORI 4'b0100
+`define ORI 4'b0110
+`define ANDI 4'b0111
+`define SLLI 4'b0001
+`define SRLI 4'b0101
+`define SRAI 4'b1101
 
 //IL-type
 `define LB 3'b000
@@ -47,17 +47,17 @@
 `define LHU 3'b101
 
 //B-type original
-// `define BEQ 3'b000
-// `define BNE 3'b001
-// `define BLT 3'b100
-// `define BGE 3'b101
-// `define BLTU 3'b110
-// `define BGEU 3'b111
+`define BEQ 3'b000
+`define BNE 3'b001
+`define BLT 3'b100
+`define BGE 3'b101
+`define BLTU 3'b110
+`define BGEU 3'b111
 
-//B-type for ALU
-`define BEQ 4'b1000
-`define BNE 4'b1001
-`define BLT 4'b1100
-`define BGE 4'b1101
-`define BLTU 4'b1110
-`define BGEU 4'b1111
+// //B-type for ALU
+// `define BEQ 4'b1000
+// `define BNE 4'b1001
+// `define BLT 4'b1100
+// `define BGE 4'b1101
+// `define BLTU 4'b1110
+// `define BGEU 4'b1111

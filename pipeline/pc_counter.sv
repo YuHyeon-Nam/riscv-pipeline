@@ -54,7 +54,6 @@ module pc_counter (
         .mux_out(alu_pc_result)
     );
 
-
     reigster_pc u_register (
         .clk(clk),
         .rst(rst),

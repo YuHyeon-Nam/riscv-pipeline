@@ -2,27 +2,43 @@
 `include "define.vh"
 
 module alu_control (
-    input logic [1:0] ALUOp,  //opcode [6:0]
-    input logic [2:0] funct3,  //inst[14:12]
-    input logic funct7,  //inst[30]
+    input  logic [6:0] opcode,
+    input  logic [3:0] alu_control,
     output logic [3:0] ctl_alu
 );
-    localparam R = 2'b10;
-    localparam LS = 2'b00;
-    localparam BEQ = 2'b01;
-    localparam I = 2'b11;
 
-    logic [3:0] instr_type;
-    assign instr_type = {funct7, funct3};
-
-    always_comb begin
-        case (ALUOp)
-            R,I: ctl_alu = {1'b0, funct3};
-            LS: ctl_alu = `ADD;
-            BEQ: ctl_alu = {1'b1,funct3};
-            //I type 4th bit : don't care
-            // I : ctl_alu = {funct3==3'b101} ? {funct7,funct3} : {1'b0, funct3};
-        endcase
-    end
+  always_comb begin
+    case (opcode)
+      `OP_R: begin
+        if (alu_control == `ADD) ctl_alu = 4'b0000;
+        else if (alu_control == `SUB) ctl_alu = 4'b0001;
+        else if (alu_control == `SLL) ctl_alu = 4'b0010;
+        else if (alu_control == `SRL) ctl_alu = 4'b0011;
+        else if (alu_control == `SRA) ctl_alu = 4'b0100;
+        else if (alu_control == `SLT) ctl_alu = 4'b0101;
+        else if (alu_control == `SLTU) ctl_alu = 4'b0110;
+        else if (alu_control == `XOR) ctl_alu = 4'b0111;
+        else if (alu_control == `OR) ctl_alu = 4'b1000;
+        else if (alu_control == `AND) ctl_alu = 4'b1001;
+      end
+      `OP_I: begin
+        if (alu_control == `ADDI) ctl_alu = 4'b0000;
+        else if (alu_control == `SLLI) ctl_alu = 4'b0010;
+        else if (alu_control == `SRLI) ctl_alu = 4'b0011;
+        else if (alu_control == `SRAI) ctl_alu = 4'b0100;
+        else if (alu_control == `SLTI) ctl_alu = 4'b0101;
+        else if (alu_control == `SLTUI) ctl_alu = 4'b0110;
+        else if (alu_control == `XORI) ctl_alu = 4'b0111;
+        else if (alu_control == `ORI) ctl_alu = 4'b1000;
+        else if (alu_control == `ANDI) ctl_alu = 4'b1001;
+      end
+      `OP_B: ctl_alu = 4'b0000;
+      `OP_S, `OP_I_LOAD: ctl_alu = 4'b0000;
+      `OP_JAL: ctl_alu = 4'b0000;
+      `OP_JR: ctl_alu = 4'b0000;
+      `OP_UA: ctl_alu = 4'b0000;
+      `OP_UL: ctl_alu = 4'b1111;
+    endcase
+  end
 
 endmodule
