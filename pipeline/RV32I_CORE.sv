@@ -8,7 +8,7 @@ module RV32I_TOP (
     logic [31:0] instr_code, instr_raddr, d_wdata, d_rdata;
     logic [31:0] d_addr;
     logic [3:0] st_size;
-    logic d_wr,load_u;
+    logic MemWrite,load_u;
     logic [31:0] wr_data_reg;
 
     instruction_memory u_instruction_memory(.*);
@@ -29,7 +29,7 @@ module RV32I_CORE(
     input [31:0] instr_code,
     input [31:0] d_rdata,
     output [31:0] instr_raddr,
-    output d_wr,
+    output MemWrite,
     output [31:0] d_addr,
     output [31:0] d_wdata,
     output [3:0] st_size,
@@ -46,7 +46,7 @@ module RV32I_CORE(
         .clk(clk),
         .rst(rst),
         .branch(branch),
-        .reg_file_we(we),
+        .RegWrite(we),
         .ctl_alu(ctl_alu),
         .instr_code(instr_code[6:0]),  
         .instr_raddr(instr_raddr),
@@ -62,11 +62,11 @@ module RV32I_CORE(
     control_unit u_control_unit(
         .instr_code(instr_code[6:0]),
         .fucnt7(instr_code[30]),
-        .reg_file_we(we),
+        .RegWrite(we),
         .ALUSrc(ALUSrc),
         .reg_w_src_sel(reg_w_src_sel),
         .ctl_alu(ctl_alu),
-        .d_wr(d_wr),
+        .MemWrite(MemWrite),
         .branch(branch),
         .jarl_sel(jarl_sel),
         .jal_sel(jal_sel),

@@ -77,12 +77,12 @@ module control_unit (
                 alu_control   = `ADD;
                 jal_sel       = 1'b0;
                 jarl_sel      = 1'b0;
-                case (funct3)
-                    `SW: st_size = 4'b1111;
-                    `SH: st_size = 4'b0011;
-                    `SB: st_size = 4'b0001;
-                    default: st_size = 4'b0000;
-                endcase
+                //case (funct3)
+                //    `SW: st_size = 4'b1111;
+                //    `SH: st_size = 4'b0011;
+                //    `SB: st_size = 4'b0001;
+                //    default: st_size = 4'b0000;
+                //endcase
             end
             `OP_I_LOAD: begin
                 reg_file_we   = 1'b1;
@@ -90,26 +90,26 @@ module control_unit (
                 alu_src_sel   = 1'b1;
                 alu_control   = `ADD;  //주소
                 reg_w_src_sel = 3'b001;
-                case (funct3)
-                    `LW: st_size = 4'b1111;
-                    `LH: begin
-                        load_u  = 1'b0;
-                        st_size = 4'b0011;
-                    end
-                    `LB: begin
-                        load_u  = 1'b0;
-                        st_size = 4'b0001;
-                    end
-                    `LHU: begin
-                        load_u  = 1'b1;
-                        st_size = 4'b0011;
-                    end
-                    `LBU: begin
-                        load_u  = 1'b1;
-                        st_size = 4'b0001;
-                    end
-                    default: st_size = 4'b0000;
-                endcase
+                //case (funct3)
+                //    `LW: st_size = 4'b1111;
+                //    `LH: begin
+                //        load_u  = 1'b0;
+                //        st_size = 4'b0011;
+                //    end
+                //    `LB: begin
+                //        load_u  = 1'b0;
+                //        st_size = 4'b0001;
+                //    end
+                //    `LHU: begin
+                //        load_u  = 1'b1;
+                //        st_size = 4'b0011;
+                //    end
+                //    `LBU: begin
+                //        load_u  = 1'b1;
+                //        st_size = 4'b0001;
+                //    end
+                //    default: st_size = 4'b0000;
+                //endcase
             end
             `OP_UL: begin  //imm to write to reg_file
                 reg_file_we   = 1'b1;

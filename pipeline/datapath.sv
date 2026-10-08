@@ -4,7 +4,7 @@
 module datapath (
     input         clk,
     input         rst,
-    input         reg_file_we,
+    input         RegWrite,
     input         ALUSrc,
     input         branch,
     input         jarl_sel,
@@ -29,7 +29,7 @@ module datapath (
         // read port 2 write port 1
         .clk(clk),
         .rst(rst),
-        .we(reg_file_we),
+        .we(RegWrite),
         .r_reg1(instr_code[19:15]),
         .r_reg2(instr_code[24:20]),
         .w_reg(instr_code[11:7]),

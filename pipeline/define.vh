@@ -23,11 +23,6 @@
 `define OR 4'b0110
 `define AND 4'b0111
 
-//S-type
-`define SW 3'b010 //opcode가 다름
-`define SH 3'b001
-`define SB 3'b000
-
 //I-type
 `define ADDI 4'b0000
 `define SLTI 4'b0010
@@ -38,6 +33,11 @@
 `define SLLI 4'b0001
 `define SRLI 4'b0101
 `define SRAI 4'b1101
+
+//S-type
+`define SW 3'b010
+`define SH 3'b001
+`define SB 3'b000
 
 //IL-type
 `define LB 3'b000

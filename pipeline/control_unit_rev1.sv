@@ -16,6 +16,7 @@ module control_unit (
 
     output logic       jal_sel,
     output logic       jarl_sel,
+    //delete
     output logic [3:0] st_size,
     output logic       load_u
 );
@@ -81,8 +82,8 @@ module control_unit (
         MemWrite      = 1'b0;
         ALUSrc        = 1'b1;
         reg_w_src_sel = 3'b001;
-
       end
+
       `OP_UL: begin  //imm to write to reg_file
         RegWrite      = 1'b1;
         branch        = 1'b0;
