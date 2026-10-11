@@ -46,11 +46,32 @@ module datapath (
     );
 
     alu u_alu (
-        .ctl_alu(ctl_alu),
-        .a          (rdata1),
-        .b          (alu_src_mux_out),
-        .alu_result (alu_result),
-        .btaken     (btaken)            //branch op
+        .ctl_alu   (ctl_alu),
+        .a         (rdata1),
+        .b         (alu_src_mux_out),
+        .alu_result(alu_result)
+    );
+    
+    alu u_JAL (
+        .alu_control(4'b0000),
+        .a(imm),
+        .b(current_pc),
+        .alu_result(o_jalpc)
+    );
+
+    alu u_AUIPC (
+        .alu_control(4'b0000),
+        .a(imm),
+        .b(current_pc),
+        .alu_result(o_auipc)
+    );
+    
+    branch u_branch (
+        .clt_b(funct3),  //funct3
+        .branch(branch),
+        .a(rdata1),
+        .b(alu_src_mux_out),
+        .btaken(btaken)
     );
 
     mux_2x1 u_pc_mux (
@@ -75,18 +96,6 @@ module datapath (
         .mux_out(mem_alu_result)  //to reg file
     );
 
-    pc_counter u_pc_counter (
-        .clk(clk),
-        .branch(branch),
-        .btaken(btaken),
-        .rst(rst),
-        .imm(imm),
-        .jal_sel(jal_sel),
-        .jarl_sel(jarl_sel),
-        .rs1(rdata1),
-        .current_pc(instr_raddr),
-        .o_auipc(o_auipc),
-        .pc_alu_out(pc_alu_out)
-    );
+
 endmodule
 
