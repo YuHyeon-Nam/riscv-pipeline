@@ -1,7 +1,6 @@
 module execute (
     input         clk,
     input         rst,
-    input         RegWrite,
     input         ALUSrc,
     input         branch,
     input         jarl_sel,
@@ -9,11 +8,9 @@ module execute (
     input  [ 2:0] reg_w_src_sel,
     input  [ 3:0] ctl_alu,
     input  [31:0] instr_code,
-    input  [31:0] w_data,
     output [31:0] mem_addr,       //RAM address
     output [31:0] mem_wdata       //RAM write data
 );
-    logic [31:0] rdata1, rdata2;
     logic [31:0] imm;
     logic [31:0] o_alu;
     logic [31:0] op_b, mem_alu_result;
@@ -27,19 +24,10 @@ module execute (
     assign mem_wdata = rdata2;
     assign imm_u = imm << 12;
 
-    decode_pipeline u_decode_pipeline ();
-
-    register_file u_register_file (
-        // read port 2 write port 1
-        .clk(clk),
-        .rst(rst),
-        .we(RegWrite),
-        .r_reg1(instr_code[19:15]),
-        .r_reg2(instr_code[24:20]),
-        .w_reg(instr_code[11:7]),
-        .wdata(w_data),
-        .rdata1(rdata1),
-        .rdata2(rdata2)
+    alu_control u_alu_control(
+        .opcode,
+        .alu_control,
+        .ctl_alu
     );
 
     alu u_alu (
@@ -86,10 +74,10 @@ module execute (
         .mux_out(op_b)
     );
 
-    extend_imm u_extend_imm (
-        .instr_code(instr_code),
-        .o_imm(imm)
-    );
+    // extend_imm u_extend_imm (
+    //     .instr_code(instr_code),
+    //     .o_imm(imm)
+    // );
 
     // mux_2x1 u_ex (
     //     .mux_sel(reg_w_src_sel),

@@ -4,7 +4,6 @@ module pc (
     input         jal_sel,
     input         btaken,
     output [31:0] current_pc
-
 );
     logic [31:0] alu_pc_next;
     logic [31:0] alu_pc_result;

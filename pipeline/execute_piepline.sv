@@ -14,20 +14,5 @@ module execute_pipeline (
     output [31:0] mem_wdata         //RAM write data
 );
 
-execute u_execute(
-    .clk,
-    .rst,
-    .RegWrite,
-    .ALUSrc,
-    .branch,
-    .jarl_sel,
-    .jal_sel,
-    .reg_w_src_sel,
-    .ctl_alu,
-    .instr_code,
-    .w_data,
-    .mem_addr,         //RAM address
-    .mem_wdata         //RAM write data
-);
     
 endmodule

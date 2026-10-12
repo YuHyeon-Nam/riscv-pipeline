@@ -2,8 +2,7 @@
 `include "define.vh"
 
 module control_unit (
-    input logic [6:0] instr_code,
-    input logic       funct7,
+    input logic [6:0] opcode,
 
     output logic       branch,
     output logic [2:0] reg_w_src_sel,
@@ -11,7 +10,6 @@ module control_unit (
     output logic       lui,
     output logic       MemRead,
     output logic       MemtoReg,
-    output logic [3:0] alu_control,
     output logic       MemWrite,       // data memory
     output logic       ALUSrc,
     output logic       RegWrite,
@@ -22,17 +20,6 @@ module control_unit (
     output logic [3:0] st_size,
     output logic       load_u
 );
-
-    logic [ 6:0] opcode;
-    logic [11:0] imm;
-    logic [ 2:0] funct3;
-
-    assign opcode = instr_code[6:0];
-    assign alu_control = {funct7, funct3};
-
-    //for i-type
-    assign imm = instr_code[31:20];
-
     //opcode 0x33
     always_comb begin
         RegWrite      = 1'b0;
