@@ -2,18 +2,19 @@ module pc (
     input         clk,
     input         rst,
     input         jal_sel,
-    input         btaken,
-    output [31:0] current_pc
+    input         PCSrc,
+    output [31:0] c_pc
+
 );
     logic [31:0] alu_pc_next;
     logic [31:0] alu_pc_result;
 
-    assign sel_j_b = jal_sel | btaken;
+    assign sel_j_b = jal_sel | PCSrc;
 
     alu u_pc_alu (
         .alu_control(4'b0000),
         .a(32'd4),
-        .b(current_pc),
+        .b(c_pc),
         .alu_result(alu_pc_next)
     );
 
@@ -28,14 +29,14 @@ module pc (
         .clk(clk),
         .rst(rst),
         .data_in(alu_pc_result),
-        .data_out(current_pc)
+        .data_out(c_pc)
     );
 
 
     //jal : imm + pc, jalr : imm + rs1 <- 이 선택은 execute에서.
     // mux_2x1 u_mux_jarl (
     //     .mux_sel(jarl_sel),
-    //     .in_0(current_pc),
+    //     .in_0(c_pc),
     //     .in_1(rs1),
     //     .mux_out(mux_jarl_out)
     // );

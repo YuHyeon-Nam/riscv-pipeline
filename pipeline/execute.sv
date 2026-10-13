@@ -1,6 +1,7 @@
 module execute (
     input         clk,
     input         rst,
+    input         RegWrite,
     input         ALUSrc,
     input         branch,
     input         jarl_sel,
@@ -8,9 +9,12 @@ module execute (
     input  [ 2:0] reg_w_src_sel,
     input  [ 3:0] ctl_alu,
     input  [31:0] instr_code,
+    input  [31:0] w_data,
+    output        PCSrc,
     output [31:0] mem_addr,       //RAM address
     output [31:0] mem_wdata       //RAM write data
 );
+    logic [31:0] rdata1, rdata2;
     logic [31:0] imm;
     logic [31:0] o_alu;
     logic [31:0] op_b, mem_alu_result;
@@ -23,12 +27,7 @@ module execute (
     assign mem_addr = o_alu;
     assign mem_wdata = rdata2;
     assign imm_u = imm << 12;
-
-    alu_control u_alu_control(
-        .opcode,
-        .alu_control,
-        .ctl_alu
-    );
+    assign PCSrc = btaken & branch;
 
     alu u_alu (
         .ctl_alu   (ctl_alu),
@@ -53,7 +52,6 @@ module execute (
 
     branch u_branch (
         .clt_b(funct3),  //funct3
-        .branch(branch),
         .a(rdata1),
         .b(op_b),
         .btaken(btaken)
@@ -61,7 +59,7 @@ module execute (
 
     //u_operand_b쪽에 통합할 수 있을 것 같음.
     mux_2x1 u_pc_mux (
-        .mux_sel(branch & btaken),
+        .mux_sel(PCSrc),
         .in_0(rdata2),
         .in_1(imm),
         .mux_out(op_b)
@@ -74,10 +72,6 @@ module execute (
         .mux_out(op_b)
     );
 
-    // extend_imm u_extend_imm (
-    //     .instr_code(instr_code),
-    //     .o_imm(imm)
-    // );
 
     // mux_2x1 u_ex (
     //     .mux_sel(reg_w_src_sel),
