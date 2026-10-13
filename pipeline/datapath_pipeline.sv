@@ -5,10 +5,22 @@ module datapath_pipeline (
 
   logic [31:0] instr_code;
   logic [31:0] instr_raddr;
+  logic btaken;
+  logic jal_sel;
+  logic rdata1;
+  logic pc_alu_out;
+  logic ;
+  logic ;
+  logic ;
+  logic ;
+  logic ;
+  logic ;
+  logic ;
+  logic ;
   
   fetch u_fetch (
-      .clk,
-      .rst,
+      .clk(clk),
+      .rst(rst),
       .btaken,
       .jal_sel,
       .rdata1,
