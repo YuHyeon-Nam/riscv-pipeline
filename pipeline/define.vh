@@ -40,10 +40,10 @@
 `define SB 3'b000
 
 //IL-type
-`define LB 3'b000
-`define LH 3'b001
 `define LW 3'b010
+`define LB 3'b000
 `define LBU 3'b100
+`define LH 3'b001
 `define LHU 3'b101
 
 //B-type original

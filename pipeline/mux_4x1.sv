@@ -11,11 +11,11 @@ module mux_4x1 (
     always @(*) begin
         mux_out = in_0;  // default
         case (mux_sel)
-            3'd0: mux_out = in_0;
-            3'd1: mux_out = in_1;
-            3'd2: mux_out = in_2;
-            3'd3: mux_out = in_3;
-            3'd4: mux_out = in_4;
+            3'b000: mux_out = in_0;
+            3'b001: mux_out = in_1;
+            3'b010: mux_out = in_2;
+            3'b011: mux_out = in_3;
+            3'b100: mux_out = in_4;
         endcase
     end
 

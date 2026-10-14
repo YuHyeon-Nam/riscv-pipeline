@@ -14,7 +14,7 @@ module data_mem (
 
   always_ff @(posedge clk) begin
     if (rst) begin
-
+      d_mem[word_index] <= '0;
     end else if (MemWrite && aligned) begin
       d_mem[word_index] <= i_wdata;
     end
@@ -32,4 +32,3 @@ module data_mem (
   assign d_rdata = d_mem[word_index];
 
 endmodule
-

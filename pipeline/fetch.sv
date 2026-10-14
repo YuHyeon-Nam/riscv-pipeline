@@ -1,34 +1,39 @@
 module fetch (
-    input         clk,
-    input         rst,
-    input         PCSrc,
-    input  [31:0] imm,
-    input         jal_sel,
-    input         jarl_sel,
-    input  [31:0] rdata1,
-    input  [31:0] instr_raddr,
-    output        pc_alu_out
+    input  logic        clk,
+    input  logic        rst,
+    input  logic        jal_sel,
+    input  logic        jarl_sel,
+    input  logic        PCSrc,
+    input  logic [31:0] alu_pc,
+    input  logic [31:0] in_pc,
+    input  logic [31:0] instr_raddr,
+    output logic [31:0] instr_code,
+    output logic [31:0] c_pc
 );
-    pc u_pc (
-        .clk(clk),
-        .rst(rst),
-        .jal_sel(jal_sel),
-        .PCSrc(PCSrc),
-        .c_pc(c_pc)
-    );
+  logic [31:0] alu_pc_next;
+  logic [31:0] alu_pc_result;
+  logic pc_sel;
+  assign pc_sel  = jal_sel | PCSrc | jarl_sel;
+  assign next_pc = pc_sel ? alu_pc : in_pc;
 
-    // pc_counter u_pc_counter (
-    //     .clk(clk),
-    //     .branch(branch),
-    //     .btaken(btaken),
-    //     .rst(rst),
-    //     .imm(imm),
-    //     .jal_sel(jal_sel),
-    //     .jarl_sel(jarl_sel),
-    //     .rs1(rdata1),
-    //     .current_pc(instr_raddr),
-    //     .o_auipc(o_auipc),
-    //     .pc_alu_out(pc_alu_out)
-    // );
+
+  instruction_memory u_instruction_memory (
+      .instr_raddr(instr_raddr),
+      .instr_code (instr_code)
+  );
+
+  reigster_pc u_register (
+      .clk(clk),
+      .rst(rst),
+      .data_in(next_pc),  //in_pc
+      .data_out(c_pc)
+  );
+
+  //   mux_2x1 u_mux_pc (
+  //       .mux_sel(sel_j_b),
+  //       .in_0(alu_pc),
+  //       .in_1(),  //mux_jarl_out <- jal or jalr 일단 생략. 
+  //       .mux_out(alu_pc_result)
+  //   );
 
 endmodule

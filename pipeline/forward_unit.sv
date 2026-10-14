@@ -1,6 +1,8 @@
 module forward_unit (
     input  logic        clk,
     input  logic        rst,
+    input  logic        RegWrite_m,
+    input  logic        RegWrite_w,
     input  logic [31:0] rs1,
     input  logic [31:0] rs2,
     input  logic [31:0] ex_rd,
@@ -9,6 +11,6 @@ module forward_unit (
     output logic        stall
 );
 
-    assign forward = (ex_rd == rs1|rs2) | (mem_rd == rs1|rs2) ? 1:0;
+  assign forward_a = (ex_rd == rs1 | rs2) | (mem_rd == rs1 | rs2) ? 1 : 0;
 
 endmodule

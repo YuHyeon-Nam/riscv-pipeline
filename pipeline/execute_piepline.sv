@@ -3,7 +3,6 @@ module execute_pipeline (
     input         rst,
     input         RegWrite,
     input         ALUSrc,
-    input         branch,
     input         jarl_sel,
     input         jal_sel,
     input  [ 2:0] reg_w_src_sel,
