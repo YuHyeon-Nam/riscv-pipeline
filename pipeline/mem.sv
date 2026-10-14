@@ -3,7 +3,6 @@ module mem (
     input               rst,
     input               MemWrite,
     input               load_un,
-    input               aligned,
     input        [31:0] w_data,
     input        [ 8:0] mem_addr,  //32bit address
     input        [ 3:0] mem_size,
@@ -13,6 +12,7 @@ module mem (
     logic [31:0] d_rdata;
     logic [ 1:0] byte_offset;
     logic [ 6:0] word_index;
+    logic aligned;
 
     wrappermem u_wrappermem (
         .w_data(w_data),

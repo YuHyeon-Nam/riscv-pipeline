@@ -1,7 +1,6 @@
-
 module load_mem (
     input  logic [ 1:0] byte_offset,
-    input  logic        load_u,
+    input  logic        load_un,
     input  logic [31:0] d_rdata,
     input  logic        aligned,
     input  logic [ 3:0] mem_size,
@@ -14,7 +13,7 @@ module load_mem (
 
   load_align u_load_align (
       .mem_size(mem_size),
-      .load_u(load_u),
+      .load_un(load_un),
       .byte_offset(byte_offset),
       .in_data(d_rdata),
       .out_data(al_d_rdata)
@@ -25,7 +24,7 @@ endmodule
 module load_align (
     input        [ 3:0] mem_size,
     input        [ 1:0] byte_offset,
-    input               load_u,       //load_unsigned
+    input               load_un,       //load_unnsigned
     input        [31:0] in_data,
     output logic [31:0] out_data
 );
@@ -41,7 +40,7 @@ module load_align (
   always_comb begin
     out_data = in_data;
     case ({
-      load_u, mem_size
+      load_un, mem_size
     })
       5'b0_1111: begin  //LW
         out_data = in_data;
