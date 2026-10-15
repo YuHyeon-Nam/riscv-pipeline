@@ -3,6 +3,7 @@ module decode (
     input  logic        rst,
     input  logic [31:0] instr_code,
     input  logic [31:0] w_data,
+    input logic RegWrite_w,
     output logic [31:0] rdata1,
     output logic [31:0] rdata2,
     output logic [31:0] imm,
@@ -23,7 +24,7 @@ module decode (
       // read port 2 write port 1
       .clk(clk),
       .rst(rst),
-      .we(RegWrite),
+      .we(RegWrite_w),
       .r_reg1(instr_code[19:15]),
       .r_reg2(instr_code[24:20]),
       .w_reg(instr_code[11:7]),
