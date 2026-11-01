@@ -1,3 +1,4 @@
+`timescale 1ns / 1ps
 
 module mux_4x1 (
     input        [ 2:0] mux_sel,
@@ -11,11 +12,12 @@ module mux_4x1 (
     always @(*) begin
         mux_out = in_0;  // default
         case (mux_sel)
-            3'b000: mux_out = in_0;
-            3'b001: mux_out = in_1;
-            3'b010: mux_out = in_2;
-            3'b011: mux_out = in_3;
-            3'b100: mux_out = in_4;
+            3'b000:  mux_out = in_0;
+            3'b001:  mux_out = in_1;
+            3'b010:  mux_out = in_2;
+            3'b011:  mux_out = in_3;
+            3'b100:  mux_out = in_4;
+            default: mux_out = in_0;
         endcase
     end
 

@@ -1,3 +1,4 @@
+`timescale 1ns / 1ps
 module load_mem (
     input  logic [ 1:0] byte_offset,
     input  logic        load_un,

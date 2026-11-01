@@ -1,6 +1,5 @@
 `timescale 1ns / 1ps
 
-
 module wrappermem (
     input  logic [ 3:0] mem_size,
     input  logic [ 8:0] mem_addr,
@@ -8,9 +7,10 @@ module wrappermem (
     output logic        aligned,
     output logic [ 1:0] byte_offset,
     output logic [ 6:0] word_index,
-    output logic [31:0] o_wdata
+    output logic [31:0] o_wdata,
+    output logic [31:0] mask
 );
-  logic [31:0] wdata_shifted, mask;
+  logic [31:0] wdata_shifted;
   logic [3:0] wstrb;
 
   assign word_index    = mem_addr[8:2];

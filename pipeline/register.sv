@@ -13,23 +13,23 @@ module register_file (
 );
     logic [31:0] reg_file[0:31];
 
-// `ifdef SIMULATION
-// initial begin
-//     for(int i=0; i<32; i++)begin
-//         reg_file[i] = i;
-//     end
-// end
-// `endif
+    // `ifdef SIMULATION
+    // initial begin
+    //     for(int i=0; i<32; i++)begin
+    //         reg_file[i] = i;
+    //     end
+    // end
+    // `endif
 
     always_ff @(posedge clk, posedge rst) begin
         // x0 : never write
-        if(rst)begin
+        if (rst) begin
             reg_file[0] <= 32'd0;
-        end else if (we &(w_reg!=0)) begin
+        end else if (we & (w_reg != 0)) begin
             reg_file[w_reg] <= wdata;
         end
     end
 
-    assign rdata1 = reg_file[r_reg1];
-    assign rdata2 = reg_file[r_reg2];
+    assign rdata1 = (we && (w_reg != 0) && (w_reg == r_reg1)) ? wdata : reg_file[r_reg1];
+    assign rdata2 = (we && (w_reg != 0) && (w_reg == r_reg2)) ? wdata : reg_file[r_reg2];
 endmodule

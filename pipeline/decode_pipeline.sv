@@ -1,3 +1,4 @@
+`timescale 1ns / 1ps
 module decode_pipeline (
     input  logic        clk,
     input  logic        rst,
@@ -16,8 +17,9 @@ module decode_pipeline (
     input  logic        jal_sel,
     input  logic        jarl_sel,
     input  logic        aui,
-    input  logic        mem_size,
+    input  logic [ 3:0] mem_size,
     input  logic        load_un,
+    input  logic        bubble,        //stall
     output logic [31:0] instr_code_d,
     output logic [31:0] c_pc_d,
     output logic [31:0] rdata1_d,
@@ -33,12 +35,12 @@ module decode_pipeline (
     output logic        jal_sel_d,
     output logic        jarl_sel_d,
     output logic        aui_d,
-    output logic        mem_size_d,
+    output logic [ 3:0] mem_size_d,
     output logic        load_un_d
 );
 
     always_ff @(posedge clk) begin
-        if (rst) begin
+        if (rst || bubble) begin
             instr_code_d <= '0;
             c_pc_d       <= '0;
             rdata1_d     <= '0;

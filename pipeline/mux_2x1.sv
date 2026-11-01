@@ -1,3 +1,4 @@
+`timescale 1ns / 1ps
 module mux_2x1 (
     input         mux_sel,
     input  [31:0] in_0,

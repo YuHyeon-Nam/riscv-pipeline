@@ -1,3 +1,4 @@
+`timescale 1ns / 1ps
 module execute (
     input  logic        clk,
     input  logic        rst,
@@ -9,19 +10,28 @@ module execute (
     input  logic [31:0] rdata1,
     input  logic [31:0] rdata2,
     input  logic [31:0] imm,
+    input  logic [31:0] c_pc,
+    input  logic        jal_sel,
+    input  logic        jarl_sel,
     output logic        PCSrc,
     output logic [31:0] o_alu,
     output logic [31:0] mem_wdata,
-    output logic [31:0] op_pc
+    output logic [31:0] op_pc,
+    output logic [31:0] pc_target
 );
-    logic [31:0] op_b, mem_alu_result;
+    logic [31:0] op_a;
+    logic [31:0] op_b;
+    logic [31:0] mem_alu_result;
     logic [31:0] pc_aui;
     logic [31:0] pc_branch;
     logic [3:0] ctl_alu;
+    logic [2:0] funct3;
     logic btaken;
 
     assign mem_wdata = rdata2;
-    assign PCSrc = btaken & branch;
+    assign PCSrc = (btaken && branch) || jal_sel || jarl_sel;
+    assign pc_target = jarl_sel ? {o_alu[31:1], 1'b0} : o_alu;
+    assign funct3 = instr_code[14:12];
 
     alu_control u_alucontrol (
         .opcode(instr_code[6:0]),
@@ -38,7 +48,7 @@ module execute (
     mux_2x1 u_operand_a (
         .mux_sel(op_sel),  //jal, aui
         .in_0(rdata1),
-        .in_1(current_pc),
+        .in_1(c_pc),
         .mux_out(op_a)
     );
 
@@ -57,7 +67,7 @@ module execute (
     );
 
     adder u_adder (
-        .a(current_pc),
+        .a(c_pc),
         .b(32'd4),
         .c(op_pc)
     );

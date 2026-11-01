@@ -1,3 +1,4 @@
+`timescale 1ns / 1ps
 module mem (
     input               clk,
     input               rst,
@@ -10,9 +11,10 @@ module mem (
 );
     logic [31:0] mem_wdata;
     logic [31:0] d_rdata;
-    logic [ 1:0] byte_offset;
+    logic [31:0] mask;
     logic [ 6:0] word_index;
-    logic aligned;
+    logic [ 1:0] byte_offset;
+    logic        aligned;
 
     wrappermem u_wrappermem (
         .w_data(w_data),
@@ -21,7 +23,8 @@ module mem (
         .o_wdata(mem_wdata),
         .word_index(word_index),
         .byte_offset(byte_offset),
-        .aligned(aligned)
+        .aligned(aligned),
+        .mask(mask)
     );
 
     data_mem u_data_mem (
@@ -31,7 +34,8 @@ module mem (
         .MemWrite(MemWrite),
         .aligned(aligned),
         .word_index(word_index),
-        .d_rdata(d_rdata)
+        .d_rdata(d_rdata),
+        .mask(mask)
     );
 
     load_mem u_load_mem (
@@ -40,9 +44,6 @@ module mem (
         .d_rdata(d_rdata),
         .aligned(aligned),
         .mem_size(mem_size),
-        .word_index(word_index),
         .o_rdata(o_rdata)
     );
-
-
 endmodule

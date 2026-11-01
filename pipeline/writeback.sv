@@ -1,5 +1,6 @@
+`timescale 1ns / 1ps
 module writeback (
-    input  logic        wb_sel,
+    input  logic    [2:0]    wb_sel,
     input  logic [31:0] o_alu,
     input  logic [31:0] d_rdata,
     input  logic [31:0] next_pc,

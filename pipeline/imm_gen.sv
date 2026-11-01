@@ -1,3 +1,4 @@
+`timescale 1ns / 1ps
 `include "define.vh"
 
 module extend_imm (
@@ -5,10 +6,11 @@ module extend_imm (
     output logic [31:0] o_imm
 );
     logic [4:0] shamt;
-    assign shamt = instr_code[24:20];
+    logic [6:0] opcode;
+    assign shamt  = instr_code[24:20];
+    assign opcode = instr_code[6:0];
     always_comb begin
-        o_imm = 32'd0;
-        case (instr_code[6:0])
+        case (opcode)
             `OP_S: begin
                 // 20bit sign extends
                 o_imm = {{20{instr_code[31]}}, instr_code[31:25], instr_code[11:7]};  //zero extends. data 12bits
@@ -30,10 +32,14 @@ module extend_imm (
                 o_imm = {{12{instr_code[31]}}, instr_code[19:12], instr_code[20], instr_code[30:21], 1'b0};
             end
             `OP_JR: begin
-                o_imm = {{12{instr_code[31]}}, {instr_code[31:20]}};
+                //    o_imm = {{12{instr_code[31]}}, {instr_code[31:20]}};
+                o_imm = {{20{instr_code[31]}}, instr_code[31:20]};
             end
             `OP_S: begin
                 o_imm = {{20{instr_code[31]}}, {instr_code[31:25]}, {instr_code[11:7]}};
+            end
+            default: begin
+                o_imm = '0;
             end
         endcase
     end
